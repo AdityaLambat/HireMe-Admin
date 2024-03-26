@@ -1,0 +1,31 @@
+<table class="table datatable">
+  <thead>
+    <tr>
+      <th scope="col">Sr. No.</th>
+      <th scope="col">ID</th>
+      <th scope="col">Post Date</th>
+      <th scope="col">Job Title</th>
+      <th scope="col">Job Location</th>
+      <th scope="col">More Details</th>
+    </tr>
+  </thead>
+  <tbody>
+        {% set sr = namespace(no = 1) %}
+        {% for job in job %}
+        <tr>
+          <th scope="row">{{ sr.no }}</th>
+          <td>{{ job['j_id'] }}</td>
+          <td>{{ job['j_postdate'] }}</td>
+          <td>{{ job['j_title'] }}</td>
+          <td>{{ job['j_location'] }}</td>
+          <td>
+            <form action="/job_details.html" method="POST">
+              <input type="hidden" name="id" value="{{ job['j_id'] }}">
+              <button type="submit" class="btn btn-primary">View</button>
+            </form>
+          </td>
+        </tr>
+        {% set sr.no = sr.no + 1 %}
+        {% endfor %}
+  </tbody>
+</table>

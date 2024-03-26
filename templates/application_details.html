@@ -1,0 +1,274 @@
+{% include "header.html" %}
+
+<title>HireMe Admin | Application Details</title>
+<style>
+  #ni3 {
+    background-color: #edfdf6;
+    font-weight: bold;
+  }
+
+  #nl3 {
+    border-left: 5px Solid #27695F;
+  }
+
+  /* Define custom styles for the fade and show effects */
+  @keyframes customFadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes customFadeOut {
+    from {
+      opacity: 1;
+    }
+
+    to {
+      opacity: 0;
+    }
+  }
+
+  .custom-fade {
+    animation: customFadeIn 1s ease-in-out, customFadeOut 1s ease-in-out 2s;
+  }
+</style>
+
+<!-- Sections -->
+<div class="app-wrapper">
+
+  <div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+
+      <h1 class="app-page-title">HireMe Admin | Application</h1>
+      <div class="col-auto">
+        <div class="page-utilities">
+          <div class="row g-2" style="justify-content: right;">
+            <div class="col-auto" style="margin-bottom: 4%;">
+              <button class="btn my-btn" onclick="downloadApplication()">
+                <i style="font-weight: bold;" class="bi bi-download"></i>
+                Download Application
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% if msg == 'updated' %}
+      <div id="myalert" class="alert alert-success col-md-6 custom-fade" role="alert">Application Status Updated
+        Successfully
+      </div>
+      {% elif msg == "error" %}
+      <div id="myalert" class="alert alert-danger col-md-6 custom-fade" role="alert">Something Error Occurred
+      </div>
+      {% endif %}
+      <div id="pdf">
+        <!-- Application -->
+        <div class="app-card col-12 alert alert-dismissible shadow-sm border-left-decoration" role="alert">
+          <div class="inner col-16">
+            <div class="col-16">
+              <h4 class="detail-heading">Application Details</h4>
+              <hr class="hr-line">
+              <table class="my-table">
+                <tr>
+                  <th>Application ID</th>
+                  <th>Job ID</th>
+                  <th>Applied Date & Time</th>
+                  <th>Application Status</th>
+                </tr>
+                <tr>
+                  <td>{{ aplDetails['aplid'] }}</td>
+                  <td>{{ jobDetails['jid'] }}</td>
+                  <td>{{ aplDetails['apldate'].strftime('%d-%m-%Y %I:%M:%S') }}</td>
+                  <td>{{ aplDetails['aplstatus'] }}</td>
+                </tr>
+                <tr>
+                  <th>Application Status Update</th>
+                </tr>
+                <form action="/application/details" method="POST">
+                  <tr>
+                    <th>
+                      <select style="background-color: white; border-radius: 5px; padding: 5px 10px 5px 10px;"
+                        name="status" required>
+                        <option selected disabled>Select Status</option>
+                        <option value="Submitted">Submitted</option>
+                        <option value="Shortlisted">Shortlisted</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>
+                      <input type="hidden" name="aplid" value="{{ aplDetails['aplid'] }}">
+                      <input type="hidden" name="func" value="update">
+                      <input type="hidden" name="jid" value="{{ aplDetails['jid'] }}">
+                      <input type="hidden" name="email" value="{{ aplDetails['email'] }}">
+                      <button type="submit" class="btn my-btn" style="padding: 5px 10px 5px 10px;">
+                        <i style="font-weight: bold;" class="bi bi-pencil-square"></i>
+                        Update Status
+                      </button>
+                    </th>
+                  </tr>
+                </form>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Applicant -->
+        <div class="app-card col-12 alert alert-dismissible shadow-sm border-left-decoration" role="alert">
+          <div class="inner col-16">
+            <div class="col-16">
+              <h4 class="detail-heading">Applicant Details</h4>
+              <hr class="hr-line">
+              <table class="my-table">
+                <tr>
+                  <th>Applicant Name</th>
+                  <th>Email</th>
+                  <th>Mobile</th>
+                  <th>Resume</th>
+                </tr>
+                <tr>
+                  <td>{{ userDetails['fname'] }} {{ userDetails['lname'] }}</td>
+                  <td>{{ userDetails['email'] }}</td>
+                  <td>{{ userDetails['mobile'] }}</td>
+                  <td>
+                    <form action="/application/details/resume" method="POST">
+                      <input type="hidden" name="resume" value="{{ aplDetails['resume'] }}">
+                      <button class="btn my-btn" type="submit">View Resume</button>
+                    </form>
+                  </td>
+                </tr>
+              </table>
+            </div><!--//row-->
+          </div><!--//app-card-body-->
+        </div>
+
+
+        <!-- Job -->
+        <div class="app-card col-12 alert alert-dismissible shadow-sm border-left-decoration" role="alert">
+          <div class="inner col-16">
+            <div class="col-16">
+              <h4 class="detail-heading">Job Details</h4>
+              <hr class="hr-line">
+              <table class="my-table">
+                {% set date = jobDetails['jdead'] %}
+                <tr>
+                  <th>Job ID</th>
+                  <th>Job Profile</th>
+                  <th>Job Location</th>
+                  <th>Job Type</th>
+                  <th>Job Shift</th>
+                  <th>Post Date</th>
+                  <th>Deadline</th>
+                  <th>Status</th>
+                </tr>
+                <tr>
+                  <td>{{ jobDetails['jid'] }}</td>
+                  <td>{{ jobDetails['jtitle'] }}</td>
+                  <td>{{ jobDetails['jdistrict'] }}, {{ jobDetails['jstate'] }}</td>
+                  <td>{{ jobDetails['jtype'] }}</td>
+                  <td>{{ jobDetails['jshift'] }}</td>
+                  <td>{{ jobDetails['jpost'].strftime('%d-%m-%Y') }}</td>
+                  <td>{{ jobDetails['jdead'].strftime('%d-%m-%Y') }}</td>
+                  {% if current_date_time > date %}
+                  <td>Expired</td>
+                  {% else %}
+                  <td>Active</td>
+                  {% endif %}
+                </tr>
+              </table>
+
+              <div style="margin-top: 2%; margin-bottom: 2%;"></div>
+              <table class="my-table">
+                <tr>
+                  <th>Job Description</th>
+                </tr>
+                <tr>
+                  <td style="text-align: justify;">
+                    {{ jobDetails['jd'] }}
+                  </td>
+                </tr>
+              </table>
+              <div style="margin-top: 2%; margin-bottom: 2%;"></div>
+              <table class="my-table">
+                <tr>
+                  <th>Roles & Responsibilities</th>
+                </tr>
+                <tr>
+                  <td style="text-align: justify;">
+                    {{role}}
+                  </td>
+                </tr>
+              </table>
+              <div style="margin-top: 2%; margin-bottom: 2%;"></div>
+              <table class="my-table">
+                <tr>
+                  <th>Required Qualification</th>
+                </tr>
+                <tr>
+                  <td style="text-align: justify;">
+                    {{qualif}}
+                  </td>
+                </tr>
+              </table>
+
+              <table class="my-table">
+                <tr>
+                  <th>Required Skills</th>
+                </tr>
+              </table>
+              {% set i = namespace(no = 1) %}
+              {% for skill in skill %}
+              <ul class="list">
+                {% if i.no > 1 %}
+                <li>
+                  {{ skill }}
+                </li>
+                {% endif %}
+              </ul>
+              {% set i.no = i.no + 1 %}
+              {% endfor %}
+
+              <div style="margin-top: 2%; margin-bottom: 2%;"></div>
+              <table class="my-table">
+                <tr>
+                  <th>Pay Scale</th>
+                </tr>
+                <td>Rs. {{ jobDetails['jsal'] }}</td>
+              </table>
+
+              <div style="margin-top: 2%; margin-bottom: 2%;"></div>
+              <table class="my-table">
+                <tr>
+                  <th>Company Website and Email</th>
+                </tr>
+                <tr>
+                  <td><i style="font-size: 18px; margin-right: 5px;" class="bi bi-globe2"></i> <a class="my-link"
+                      href="{{ jobDetails['cweb'] }}">{{ jobDetails['cname'] }}<i
+                        style="margin-left: 5px; font-size: 18px;" class="bi bi-box-arrow-up-right"></i></a></td>
+                </tr>
+                <tr>
+                  <td><i class="fa fa-envelope" style="font-size:18px; margin-right: 5px; color: black;"></i> {{
+                    jobDetails['cemail'] }}</td>
+                </tr>
+              </table>
+              <!-- </table> -->
+            </div><!--//row-->
+          </div><!--//app-card-body-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include "footer.html" %}
+
+  <script type="text/javascript">
+    function downloadApplication() {
+      const pdf = document.getElementById('pdf')
+      html2pdf(pdf)
+    }
+  </script>

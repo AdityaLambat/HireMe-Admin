@@ -1,0 +1,98 @@
+{% include "header.html" %}
+<title>HireMe Admin | View Jobs</title>
+<style>
+  #ni4 {
+    background-color: #edfdf6;
+    font-weight: bold;
+  }
+
+  #nl4 {
+    border-left: 5px Solid #27695F;
+  }
+</style>
+
+<div class="app-wrapper">
+
+  <div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+
+      <div class="row g-3 mb-4 align-items-center justify-content-between">
+        <div class="col-auto">
+          <h1 class="app-page-title mb-0">HireMe Admin | View Jobs</h1>
+        </div>
+        <div class="col-auto">
+          <div class="page-utilities">
+            <div class="row g-2  align-items-right">
+              <div class="col-auto">
+                <form class="table-search-form row gx-1 align-items-center">
+                  <div class="col-auto">
+                    <input type="text" id="searchInput" name="searchorders" class="form-control search-orders"
+                      placeholder="Search">
+                  </div>
+                </form>
+
+              </div><!--//col-->
+              <div class="col-auto">
+                <button style="background-color: #27695F; color: #F5F0D6;" class="btn app-btn-secondary"
+                  onclick="downloadCSV()">
+                  <i style="font-weight: bold;" class="bi bi-download"></i>
+                  Download CSV
+                </button>
+              </div>
+              <div class="col-auto">
+                <button style="background-color: #27695F; color: #F5F0D6;" class="btn app-btn-secondary"
+                  onclick="downloadPDF()">
+                  <i style="font-weight: bold;" class="bi bi-download"></i>
+                  Download PDF
+                </button>
+              </div>
+            </div><!--//row-->
+          </div><!--//table-utilities-->
+        </div><!--//col-auto-->
+      </div><!--//row-->
+
+      <!-- Table -->
+      <table class="table" id="dataTable">
+        <thead>
+          <tr>
+            <th scope="col">Sr.No.</th>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Company</th>
+            <th scope="col">Post Date</th>
+            <th scope="col">Deadline Date</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          {% set sr = namespace(no = 1) %}
+          {% for jobs in jobs %}
+          {% set date = jobs['jdead'] %}
+          <tr>
+            <th scope="row">{{ sr.no }}</th>
+            <td>{{ jobs['jid'] }}</td>
+            <td>{{ jobs['jtitle'] }}</td>
+            <td>{{ jobs['cname'] }}</td>
+            <td>{{ jobs['jpost'].strftime('%d-%m-%Y') }}</td>
+            <td>{{ jobs['jdead'].strftime('%d-%m-%Y') }}</td>
+            {% if current_date_time > date %}
+            <td>Expired</td>
+            {% else %}
+            <td>Active</td>
+            {% endif %}
+            <td><form action="/job/details" method="POST">
+              <input type="hidden" name="jid" value="{{ jobs['jid'] }}">
+              <button class="btn my-btn"
+                type="submit">View</button>
+            </form></td>
+          </tr>
+          {% set sr.no = sr.no + 1 %}
+          {% endfor %}
+        </tbody>
+      </table>
+      <!-- Table Close -->
+    </div><!--//container-fluid-->
+  </div><!--//app-content-->
+
+  {% include "footer.html" %}

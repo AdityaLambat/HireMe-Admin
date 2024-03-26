@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <meta name="description" content="Portal - Bootstrap 5 Admin Dashboard Template For Developers">
+  <meta name="author" content="Xiaoying Riley at 3rd Wave Media">
+  <link rel="shortcut icon" style="border-radius: 50px ;"
+    href="{{ url_for('static', filename='images/HireMeIcon.png') }}">
+
+  <link href="{{ url_for('static', filename='assets/simple-datatables/style.css') }}" rel="stylesheet">
+
+  <!-- FontAwesome JS-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script defer src="{{ url_for('static', filename='assets/plugins/fontawesome/js/all.min.js') }}"></script>
+
+  <!-- App CSS -->
+  <link id="theme-style" rel="stylesheet" href="{{ url_for('static',filename='assets/css/style.css') }}">
+
+</head>
+<style>
+  #uarr1,
+  #uarr2 {
+    display: none;
+  }
+</style>
+
+<body class="app">
+  <!-- Header -->
+  <header class="app-header fixed-top">
+    <div class="app-header-inner">
+      <div class="container-fluid py-2">
+        <div class="app-header-content">
+          <div class="row justify-content-between align-items-center">
+            <div class="app-search-box col"></div>
+            <div class="app-utilities col-auto">
+
+              <!-- Notification Icon  -->
+              <div class="app-utility-item app-notifications-dropdown dropdown">
+                <a class="dropdown-toggle no-toggle-arrow" id="notifications-dropdown-toggle" data-bs-toggle="dropdown"
+                  href="#" role="button" aria-expanded="false" title="Notifications">
+                  <i id="bi-icon" class="bi bi-bell"></i>
+                  <span class="icon-badge">3</span>
+                </a>
+
+                <!-- Notification List -->
+                <div class="dropdown-menu p-0" aria-labelledby="notifications-dropdown-toggle">
+                  <div class="dropdown-menu-header p-3">
+                    <h5 class="dropdown-menu-title mb-0">Notifications</h5>
+                  </div><!--//dropdown-menu-title-->
+                  <div class="dropdown-menu-content">
+                    <div class="item p-3">
+                      <div class="row gx-2 justify-content-between align-items-center">
+                        <div class="col-auto">
+                          <i style="font-size: 20px;" class="bi bi-app-indicator"></i>
+                        </div><!--//col-->
+                        <div class="col">
+                          <div class="info">
+                            <div class="desc">Amy shared a file with you. Lorem ipsum dolor sit amet, consectetur
+                              adipiscing elit. </div>
+                            <div class="meta"> 2 hrs ago</div>
+                          </div>
+                        </div>
+                      </div>
+                      <a class="link-mask" href="notifications.html"></a>
+                    </div><!--//item-->
+                    <div class="item p-3">
+                      <div class="row gx-2 justify-content-between align-items-center">
+                        <div class="col-auto">
+                          <i style="font-size: 20px;" class="bi bi-app-indicator"></i>
+                        </div>
+                        <div class="col">
+                          <div class="info">
+                            <div class="desc">You have a new invoice. Proin venenatis interdum est.</div>
+                            <div class="meta"> 1 day ago</div>
+                          </div>
+                        </div>
+                      </div>
+                      <a class="link-mask" href="notifications.html"></a>
+                    </div><!--//item-->
+                    <div class="item p-3">
+                      <div class="row gx-2 justify-content-between align-items-center">
+                        <div class="col-auto">
+                          <i style="font-size: 20px;" class="bi bi-app-indicator"></i>
+                        </div>
+                        <div class="col">
+                          <div class="info">
+                            <div class="desc">Your report is ready. Proin venenatis interdum est.</div>
+                            <div class="meta"> 3 days ago</div>
+                          </div>
+                        </div>
+                      </div>
+                      <a class="link-mask" href="notifications.html"></a>
+                    </div>
+                  </div>
+                  <!--//dropdown-menu-content-->
+
+                  <div class="dropdown-menu-footer p-2 text-center">
+                    <a style="color: #27695F;" href="notifications.html">View all</a>
+                  </div>
+
+                </div><!--//dropdown-menu-->
+              </div><!--//app-utility-item-->
+
+              <!-- Settings Icon -->
+              <div class="app-utility-item">
+                <a href="settings.html" title="Settings">
+                  <i id="bi-icon" class="bi bi-gear"></i>
+                </a>
+              </div><!--//app-utility-item-->
+
+
+              <!-- Profile Icon -->
+              <div class="app-utility-item">
+                <a title="Profile" href="#" role="button"><i id="bi-icon" class="bi bi-person-circle"></i></a>
+              </div><!--//app-user-dropdown-->
+            </div><!--//app-utilities-->
+          </div><!--//row-->
+        </div><!--//app-header-content-->
+      </div><!--//container-fluid-->
+    </div><!--//app-header-inner-->
+
+
+    <div id="app-sidepanel" class="app-sidepanel">
+      <div id="sidepanel-drop" class="sidepanel-drop"></div>
+      <div class="sidepanel-inner d-flex flex-column">
+        <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
+        <div class="app-branding">
+          <a class="app-logo" href="index.html"><img style="border-radius: 50px;" class="logo-icon me-2"
+              src="{{ url_for('static', filename='images/HireMeIcon.png') }}" alt="logo"><span
+              class="logo-text">ADMIN</span></a>
+
+        </div><!--//app-branding-->
+
+        <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+          <ul class="app-menu list-unstyled accordion" id="menu-accordion">
+            <li class="nav-item" id="ni1">
+              <a class="nav-link" id="nl1" href="/index">
+                <span class="nav-icon">
+                  <i style="font-size: 20px;" class="bi bi-house"></i>
+                </span>
+                <span class="nav-link-text">Home</span>
+              </a><!--//nav-link-->
+            </li><!--//nav-item-->
+
+
+            <li class="nav-item" id="ni2">
+              <a class="nav-link" id="nl2" href="/users">
+                <span class="nav-icon">
+                  <i style="font-size: 20px;" class="bi bi-card-list"></i>
+                </span>
+                <span class="nav-link-text">Users</span>
+              </a><!--//nav-link-->
+            </li><!--//nav-item-->
+
+            <li class="nav-item" id="ni3">
+              <a class="nav-link" id="nl3" href="/applications">
+                <span class="nav-icon">
+                  <i style="font-size: 20px;" class="bi bi-file-post"></i>
+                </span>
+                <span class="nav-link-text">Applications</span>
+              </a><!--//nav-link-->
+            </li><!--//nav-item-->
+
+            <li class="nav-item has-submenu" id="ni4">
+              <a class="nav-link submenu-toggle" id="nl4" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-1"
+                aria-expanded="false" aria-controls="submenu-1" onclick="changeArrow1()">
+                <span class="nav-icon">
+                  <i style="font-size: 20px;" class="bi bi-card-list"></i>
+                </span>
+                <span class="nav-link-text">Jobs</span>
+                <span class="submenu-arrow">
+                  <i id="darr1" style="font-size: 20px;" class="bi bi-caret-down"></i>
+                  <i id="uarr1" style="font-size: 20px;" class="bi bi-caret-up"></i>
+                </span><!--//submenu-arrow-->
+              </a><!--//nav-link-->
+              <div id="submenu-1" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
+                <ul class="submenu-list list-unstyled">
+                  <li class="submenu-item" id="ni41"><a id="nl41" class="submenu-link" href="/post_jobs">Post
+                      Jobs</a></li>
+                  <li class="submenu-item" id="ni42"><a id="ni42" class="submenu-link" href="/view_jobs">View
+                      Jobs</a></li>
+                </ul>
+              </div>
+            </li><!--//nav-item-->
+
+            <li class="nav-item" id="ni6">
+              <a class="nav-link submenu-toggle" id="nl6 href=" #" data-bs-toggle="collapse" data-bs-target="#submenu-2"
+                aria-expanded="false" aria-controls="submenu-2" onclick="changeArrow2()">
+                <span class="nav-icon">
+                  <i style="font-size: 20px;" class="bi bi-file-earmark-bar-graph"></i>
+                </span>
+                <span class="nav-link-text">Reports</span>
+                <span class="submenu-arrow">
+                  <i id="darr2" style="font-size: 20px;" class="bi bi-caret-down"></i>
+                  <i id="uarr2" style="font-size: 20px;" class="bi bi-caret-up"></i>
+                </span>
+              </a><!--//nav-link-->
+              <div id="submenu-2" class="collapse submenu submenu-2" data-bs-parent="#menu-accordion">
+                <ul class="submenu-list list-unstyled">
+                  <li class="submenu-item" id="ni61"><a id="nl61" class="submenu-link"
+                      href="/reports/application">Applications</a></li>
+                  <li class="submenu-item" id="ni62"><a id="nl62" class="submenu-link" href="/reports/job">Jobs</a>
+                  </li>
+                </ul>
+              </div>
+            </li><!--//nav-item-->
+          </ul><!--//app-menu-->
+        </nav><!--//app-nav-->
+
+
+        <div class="app-sidepanel-footer">
+          <nav class="app-nav app-nav-footer">
+            <ul class="app-menu footer-menu list-unstyled">
+              <li class="nav-item">
+                <div class="nav-link">
+                  <span class="nav-icon">
+                    <i style="font-size: 20px;" class="bi bi-box-arrow-in-right"></i>
+                  </span>
+                  <form action="/logout" method="POST">
+                    <button style="background-color: white; border: none;" type="submit"><span class="nav-link-text">Log
+                        Out</span></button>
+                  </form>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"
+                  href="/privacy_policy">
+                  <span class="nav-icon">
+                    <i style="font-size: 20px;" class="bi bi-shield"></i>
+                  </span>
+                  <span class="nav-link-text">Privacy Policy</span>
+                </a>
+              </li><!--//nav-item-->
+            </ul><!--//footer-menu-->
+          </nav>
+        </div><!--//app-sidepanel-footer-->
+      </div><!--//sidepanel-inner-->
+    </div><!--//app-sidepanel-->
+  </header><!--//app-header-->

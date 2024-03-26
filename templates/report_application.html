@@ -1,0 +1,173 @@
+{% include "header.html" %}
+<title>HireMe Admin | Applications</title>
+<style>
+  #ni6 {
+    background-color: #edfdf6;
+    font-weight: bold;
+  }
+
+  #nl6 {
+    border-left: 5px Solid #27695F;
+  }
+</style>
+
+<div class="app-wrapper">
+
+  <div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+
+      <div class="row g-3 mb-4 align-items-center justify-content-between">
+        <div class="col-auto">
+          <h1 class="app-page-title mb-0">HireMe Admin | Applications Report</h1>
+        </div>
+        <div class="col-auto">
+          <div class="page-utilities">
+            <div class="row g-2  align-items-right">
+              <div class="col-auto">
+                <form class="table-search-form row gx-1 align-items-center">
+                  <div class="col-auto">
+                    <input type="text" id="searchInput" name="searchorders" class="form-control search-orders"
+                      placeholder="Search">
+                  </div>
+                </form>
+
+              </div><!--//col-->
+              <div class="col-auto">
+                <button class="btn my-btn" onclick="downloadCSV()">
+                  <i style="font-weight: bold;" class="bi bi-download"></i>
+                  Download CSV
+                </button>
+              </div>
+              <div class="col-auto">
+                <button class="btn my-btn" onclick="createPDF()">
+                  <i style="font-weight: bold;" class="bi bi-download"></i>
+                  Download PDF
+                </button>
+              </div>
+            </div><!--//row-->
+          </div><!--//table-utilities-->
+        </div><!--//col-auto-->
+      </div><!--//row-->
+
+      <!-- Table -->
+
+      <div class="row g-4 settings-section">
+        <div class="col-18">
+          <div class="app-card app-card-settings shadow-sm p-4">
+            <div class="app-card-body">
+              <form action="/reports/application" method="POST" class="settings-form">
+                <div class="col-4">
+                  <label for="setting-input-2" class="form-label">Application</label>
+                  <select class="form-control" name="filter" required>
+                    <option disabled selected>Select</option>
+                    <option value="Applied">Applied</option>
+                    <option value="Selected">Selected</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </div>
+                <div class="col-4">
+                  <label for="setting-input-2" class="form-label">From</label>
+                  <input type="date" name="from" class="form-control" id="setting-input-1" value="Select Date">
+                </div>
+                <div class="col-4">
+                  <label for="setting-input-2" class="form-label">To</label>
+                  <input type="date" name="to" class="form-control" id="setting-input-1" value="Select Date">
+                </div>
+                <button style="margin-top: 2%;" type="submit" class="btn app-btn-primary">Genrate Report</button>
+              </form>
+            </div><!--//app-card-body-->
+
+          </div><!--//app-card-->
+        </div>
+      </div><!--//row-->
+
+      {% if msg == 'found' %}
+      <div id="tab">
+        <table class="table">
+          <tr>
+            <td><b>From :</b> {{ fromDate }}</td>
+          </tr>
+          <tr>
+            <td><b>To :</b> {{ toDate }}</td>
+          </tr>
+          <tr>
+            <td><b>Status :</b> {{ status }}</td>
+          </tr>
+        </table>
+        <table class="table" id="dataTable">
+          <thead>
+            <tr>
+              <th scope="col">Sr.No.</th>
+              <th scope="col">Application ID</th>
+              <th scope="col">Job ID</th>
+              <th scope="col">Applicant Email</th>
+              <th scope="col">Applied Date</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            {% set sr = namespace(no = 1) %}
+            {% for result in result %}
+            <tr>
+              <th scope="row">{{sr.no}}</th>
+              <td>{{ result['aplid'] }}</td>
+              <td>{{ result['jid'] }}</td>
+              <td>{{ result['email'] }}</td>
+              <td>{{ result['apldate'].strftime('%d-%m-%Y') }}</td>
+              <td>{{ result['aplstatus'] }}</td>
+            </tr>
+            {% set sr.no = sr.no + 1 %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% elif msg == 'error' %}
+      <table class="table" id="dataTable">
+        <thead>
+          <tr>
+            <th scope="col">Sr.No.</th>
+            <th scope="col">Application ID</th>
+            <th scope="col">Job ID</th>
+            <th scope="col">Applicant Email</th>
+            <th scope="col">Applied Date</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr>
+            <th>No Data Found</th>
+          </tr>
+        </tbody>
+      </table>
+      {% endif %}
+      <!-- Table Close -->
+    </div><!--//container-fluid-->
+  </div><!--//app-content-->
+
+  <script>
+    function createPDF() {
+      var sTable = document.getElementById('tab').innerHTML;
+
+      var style = "<style>";
+      style = style + "table {width: 100%;font: 17px Calibri;}";
+      style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+      style = style + "padding: 2px 3px;text-align: left;}";
+      style = style + "</style>";
+
+      // CREATE A WINDOW OBJECT.
+      var win = window.open('', '', 'height=700,width=700');
+
+      win.document.write('<html><head>');
+      win.document.write('<title>Job Applications Report</title>'); // <title> FOR PDF HEADER.
+      win.document.write(style); // ADD STYLE INSIDE THE HEAD TAG.
+      win.document.write('</head>');
+      win.document.write('<body><h2>HireME</b></h2> <p><b>Applications Report</b></p>');
+      win.document.write(sTable); // THE TABLE CONTENTS INSIDE THE BODY TAG.
+      win.document.write('<p>&copy; 2023 HireMe Admin Portal, All Right Reserved.</p></body></html>');
+
+      win.document.close(); // CLOSE THE CURRENT WINDOW.
+
+      win.print(); // PRINT THE CONTENTS.
+    }
+  </script>
+  {% include "footer.html" %}

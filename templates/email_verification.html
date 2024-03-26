@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>HireMe Admin | Email Verification</title>
+
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<meta name="description" content="Portal - Bootstrap 5 Admin Dashboard Template For Developers">
+	<meta name="author" content="Xiaoying Riley at 3rd Wave Media">
+
+	<!-- Icon Font Stylesheet -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+	<link rel="shortcut icon" style="border-radius: 50px ;"
+		href="{{ url_for('static', filename='images/HireMeIcon.png') }}">
+
+	<!-- FontAwesome JS-->
+	<script defer src="{{ url_for('static', filename='assets/plugins/fontawesome/js/all.min.js') }}"></script>
+
+	<!-- App CSS -->
+	<link id="theme-style" rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+
+</head>
+<style>
+	#eye2 {
+		display: none;
+	}
+
+	/* Define custom styles for the fade and show effects */
+	@keyframes customFadeIn {
+		from {
+			opacity: 0;
+		}
+
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes customFadeOut {
+		from {
+			opacity: 1;
+		}
+
+		to {
+			opacity: 0;
+		}
+	}
+
+	.custom-fade {
+		animation: customFadeIn 1s ease-in-out, customFadeOut 1s ease-in-out 2s;
+	}
+</style>
+
+<body class="app app-login p-0">
+	<div class="row g-0 app-auth-wrapper">
+		<div class="col-12 col-md-7 col-lg-6 auth-main-col text-center p-5">
+			<div class="d-flex flex-column align-content-end">
+				<div class="app-auth-body mx-auto">
+					<div class="app-auth-branding mb-4"><img class="logo-icon me-2" style="border-radius: 60px; width: 20%;"
+							src="{{ url_for('static', filename='images/HireMeIcon.png') }}" alt="logo"></div>
+					<h2 class="auth-heading text-center mb-5">Verify Your Email</h2>
+					<div class="auth-form-container text-start">
+						{% if msg == 'otperror' %}
+						<div id="myalert" class="alert alert-danger col-md-12 custom-fade" role="alert">Incorrect
+							OTP
+						</div>
+						{% elif msg == "resendotp" %}
+						<div id="myalert" class="alert alert-success col-md-12 custom-fade" role="alert">OTP Send To
+							Email
+						</div>
+						{% elif msg == "verified" %}
+						<div id="myalert" class="alert alert-success col-md-12 custom-fade" role="alert">Email
+							Verified
+						</div>
+						{% endif %}
+
+						{% if msg == "verified" %}
+						<div style="margin-bottom: 3%;"></div>
+						<form action="/reset_password" method="POST" class="auth-form login-form">
+							<div class="text-center">
+								<input type="hidden" name="email" value="{{ email }}">
+								<button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Reset Password</button>
+							</div>
+						</form>
+						{% else %}
+						<form action="/forgot_password/email_verification" method="POST" class="auth-form login-form">
+							<div class="email mb-3">
+								<label class="sr-only" for="signin-email">Enter 6 Digit OTP</label>
+								<input id="signin-email" name="mailotp" type="text" class="form-control signin-email"
+									placeholder="Enter 6 Digit OTP" style="color: black;" required="required">
+								<input type="hidden" name="sysOtp" value="{{ otp }}">
+								<input type="hidden" name="func" value="verify">
+								<input type="hidden" name="email" value="{{ email }}">
+							</div>
+							<div class="text-center">
+								<button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Verify OTP</button>
+							</div>
+						</form>
+						<div style="margin-bottom: 3%;"></div>
+						<form action="/forgot_password/email_verification" method="POST" class="auth-form login-form">
+							<div class="text-center">
+								<input type="hidden" name="resendemail" value="{{ email }}">
+								<input type="hidden" name="func" value="resend">
+								<button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Resend OTP</button>
+							</div>
+						</form>
+						{% endif %}
+
+					</div><!--//auth-form-container-->
+
+				</div><!--//auth-body-->
+
+				<footer class="app-auth-footer">
+					<div class="container text-center py-3">
+						<small class="copyright">&copy; 2023 HireMe Admin Portal, All Right Reserved.</small>
+					</div>
+				</footer><!--//app-auth-footer-->
+			</div><!--//flex-column-->
+		</div><!--//auth-main-col-->
+		<div class="col-12 col-md-5 col-lg-6 h-100 auth-background-col">
+			<div class="auth-background-holder">
+			</div>
+		</div><!--//auth-background-col-->
+
+	</div><!--//row-->
+
+	<script type="text/javascript">
+
+		// Toggle password
+		var change = false;
+		function toggle() {
+			if (change) {
+				document.getElementById("signin-password").setAttribute("type", "password");
+				document.getElementById("eye2").style.display = "none"
+				document.getElementById("eye1").style.display = "inline-block";
+				change = false;
+			} else {
+				document.getElementById("signin-password").setAttribute("type", "text");
+				document.getElementById("eye1").style.display = "none";
+				document.getElementById("eye2").style.display = "inline-block"
+				change = true;
+			}
+		}
+	</script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			setTimeout(function () {
+				document.getElementById('myalert').classList.add('d-none');
+			}, 2000); // 2000 milliseconds = 2 seconds
+		});
+	</script>
+
+</body>
+
+</html>

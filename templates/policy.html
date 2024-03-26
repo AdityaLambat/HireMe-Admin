@@ -1,0 +1,179 @@
+{% include "header.html" %}
+
+<title>HireMe Admin | Privacy Policy</title>
+
+
+<!-- Sections -->
+<div class="app-wrapper">
+
+  <div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+      <h1 class="app-page-title">HireMe Admin | Privacy Policy</h1>
+      <div class="page-utilities">
+        <div class="row g-2" style="justify-content: right;">
+          <div class="col-auto" style="margin-bottom: 4%;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pdf">
+
+      <!-- Privacy Policy -->
+      <div class="app-card col-12 alert alert-dismissible shadow-sm border-left-decoration" role="alert">
+        <div class="inner col-16">
+          <div class="col-16">
+            <h4 class="detail-heading">Privacy Policy</h4>
+            <table>
+              <tr>
+                <th>Last Update : 12 December 2023</th>
+              </tr>
+              <tr>
+                <td>
+                  <p style="text-align: justify;">Welcome to HireMe, the premier job portal connecting employers and job
+                    seekers. This Privacy Policy
+                    is designed to help you understand how we collect, use, and safeguard your personal information when
+                    you engage with our website and services.</p>
+                </td>
+              </tr>
+            </table>
+            <hr class="hr-line">
+            <table>
+              <tr>
+                <td><b>1. Information We Collect</b></td>
+              </tr>
+              <tr>
+                <td>
+                  <p style="text-align: justify;"><b>a. User-Provided Information</b><br>
+                    When you register for an account on HireMe, we collect essential information such as your name,
+                    email address, and other details necessary for creating and managing your profile. Job seekers have
+                    the option to provide additional information, including resumes, work experience, education, and
+                    skills.
+                  </p>
+                  <p style="text-align: justify;">
+                    <b>b. Employer Information</b><br>
+                    Employers provide company details, job listings, and other information essential for recruitment
+                    purposes.
+                  </p>
+                  <p style="text-align: justify;">
+                    <b>c. Automatically Collected Information</b><br>
+                    We utilize cookies and similar technologies to automatically collect device information, IP
+                    addresses, and usage data. This information helps us enhance user experience, analyze trends, and
+                    administer the website.
+                  </p>
+                </td>
+              </tr>
+            </table>
+            <hr class="hr-line">
+            <table>
+              <tr>
+                <td><b>2. How We Use Your Information </b></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <p style="text-align: justify;"><b>a. Job Matching</b><br>
+                    We leverage the information provided by job seekers to facilitate accurate job matching, connecting
+                    them with relevant employment opportunities.
+                  </p>
+                  <p style="text-align: justify;">
+                    <b>b. Communication</b><br>
+                    We may use your contact information to communicate with you about your account, job applications, or
+                    important service updates. This includes notifications regarding new job listings, application
+                    status, and relevant industry news.
+                  </p>
+                  <p style="text-align: justify;">
+                    <b>c. Improving Services</b><br>
+                    Your feedback and usage data play a crucial role in enhancing and personalizing our services. We
+                    analyze this information to improve user experience, optimize job matching algorithms, and introduce
+                    new features.
+                  </p>
+                </td>
+              </tr>
+            </table>
+            <hr class="hr-line">
+            <table>
+              <tr>
+                <td><b>3. Data Sharing </b></td>
+              </tr>
+              <tr>
+                <td>
+                  <p style="text-align: justify;"><b>a. Employers and Job Seekers</b><br>
+                    Job seeker profiles, excluding contact details, may be shared with employers to facilitate the
+                    recruitment process. Employers may contact job seekers directly through our platform.
+                  </p>
+                  <p style="text-align: justify;">
+                    <b>b. Service Providers</b><br>
+                    We may share information with trusted third-party service providers who assist us in delivering and
+                    improving our platform. These providers adhere to strict confidentiality and security standards.
+                  </p>
+                  <p style="text-align: justify;">
+                    <b>c. Legal Requirements</b><br>
+                    We may disclose your information if required by law or if we believe that such action is necessary
+                    to protect our rights, comply with legal processes, or ensure the safety of our users.
+                  </p>
+                </td>
+              </tr>
+            </table>
+
+            <hr class="hr-line">
+            <table>
+              <tr>
+                <td><b>4. Security Measures</b></td>
+              </tr>
+              <tr>
+                <td>
+                  <p style="text-align: justify;"><b>a. Data Security</b><br>
+                    We employ industry-standard security measures to protect your personal information from unauthorized
+                    access, disclosure, alteration, and destruction.
+                  </p>
+                  <p style="text-align: justify;">
+                    <b>b. Access Controls</b><br>
+                    Access to your personal information is restricted to authorized personnel who require access to
+                    fulfill their job responsibilities.
+                  </p>
+                </td>
+              </tr>
+            </table>
+            <hr class="hr-line">
+            <table>
+              <tr>
+                <td><b>5. Contact Information</b></td>
+              </tr>
+              <tr>
+                <td>
+                  <p style="text-align: justify;">
+                    If you have any questions, concerns, or requests regarding this Privacy Policy, please contact us at
+                    contact@hireme.com.
+                  </p>
+                </td>
+              </tr>
+            </table>
+
+            <hr class="hr-line">
+            <table>
+              <tr>
+                <td>
+                  <p style="text-align: justify;">
+                    This privacy policy is mentioned for just the project purpose. Any of the policy points mentioned
+                    above are not written under legal advisory person.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </div><!--//row-->
+        </div><!--//app-card-body-->
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% include "footer.html" %}
+
+<script type="text/javascript">
+  function downloadApplication() {
+    const pdf = document.getElementById('pdf')
+    html2pdf(pdf)
+  }
+</script>

@@ -1,0 +1,159 @@
+{% include "header.html" %}
+
+<title>HireMe Admin | Application Details</title>
+<style>
+  #ni4 {
+    background-color: #edfdf6;
+    font-weight: bold;
+  }
+
+  #nl4 {
+    border-left: 5px Solid #27695F;
+  }
+</style>
+
+<!-- Sections -->
+<div class="app-wrapper">
+
+  <div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+
+      <h1 class="app-page-title">HireMe Admin | Job Details</h1>
+      <div class="col-auto">
+        <div class="page-utilities">
+          <div class="row g-2" style="justify-content: right;">
+            <div class="col-auto" style="margin-bottom: 4%;">
+              <button class="btn my-btn" onclick="downloadApplication()">
+                <i style="font-weight: bold;" class="bi bi-download"></i>
+                Download Application
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="pdf">
+        <!-- Job -->
+        <div class="app-card col-12 alert alert-dismissible shadow-sm border-left-decoration" role="alert">
+          <div class="inner col-16">
+            <div class="col-16">
+              <h4 class="detail-heading">Job Details</h4>
+              <hr class="hr-line">
+              <table class="my-table">
+                {% set date = jobDetails['jdead'] %}
+                <tr>
+                  <th>Job ID</th>
+                  <th>Job Profile</th>
+                  <th>Job Location</th>
+                  <th>Job Type</th>
+                  <th>Job Shift</th>
+                  <th>Post Date</th>
+                  <th>Deadline</th>
+                  <th>Status</th>
+                </tr>
+                <tr>
+                  <td>{{ jobDetails['jid'] }}</td>
+                  <td>{{ jobDetails['jtitle'] }}</td>
+                  <td>{{ jobDetails['jdistrict'] }}, {{ jobDetails['jstate'] }}</td>
+                  <td>{{ jobDetails['jtype'] }}</td>
+                  <td>{{ jobDetails['jshift'] }}</td>
+                  <td>{{ jobDetails['jpost'].strftime('%d-%m-%Y') }}</td>
+                  <td>{{ jobDetails['jdead'].strftime('%d-%m-%Y') }}</td>
+                  {% if current_date_time > date %}
+                  <td>Expired</td>
+                  {% else %}
+                  <td>Active</td>
+                  {% endif %}
+                </tr>
+              </table>
+
+              <div style="margin-top: 2%; margin-bottom: 2%;"></div>
+              <table class="my-table">
+                <tr>
+                  <th>Job Description</th>
+                </tr>
+                <tr>
+                  <td style="text-align: justify;">
+                    {{ jobDetails['jd'] }}
+                  </td>
+                </tr>
+              </table>
+              <div style="margin-top: 2%; margin-bottom: 2%;"></div>
+              <table class="my-table">
+                <tr>
+                  <th>Roles & Responsibilities</th>
+                </tr>
+                <tr>
+                  <td style="text-align: justify;">
+                    {{role}}
+                  </td>
+                </tr>
+              </table>
+              <div style="margin-top: 2%; margin-bottom: 2%;"></div>
+              <table class="my-table">
+                <tr>
+                  <th>Required Qualification</th>
+                </tr>
+                <tr>
+                  <td style="text-align: justify;">
+                    {{qualif}}
+                  </td>
+                </tr>
+              </table>
+              <table class="my-table">
+                <tr>
+                  <th>Required Skills</th>
+                </tr>
+              </table>
+              {% set i = namespace(no = 1) %}
+              {% for skill in skill %}
+              <ul class="list">
+                {% if i.no > 1 %}
+                <li>
+                  {{ skill }}
+                </li>
+                {% endif %}
+              </ul>
+              {% set i.no = i.no + 1 %}
+              {% endfor %}
+
+              <div style="margin-top: 2%; margin-bottom: 2%;"></div>
+              <table class="my-table">
+                <tr>
+                  <th>Pay Scale</th>
+                </tr>
+                <td>Rs. {{ jobDetails['jsal'] }}</td>
+              </table>
+
+              <div style="margin-top: 2%; margin-bottom: 2%;"></div>
+              <table class="my-table">
+                <tr>
+                  <th>Company Website and Email</th>
+                </tr>
+                <tr>
+                  <td><i style="font-size: 18px; margin-right: 5px;" class="bi bi-globe2"></i> <a class="my-link"
+                      href="{{ jobDetails['cweb'] }}">{{ jobDetails['cname'] }}<i
+                        style="margin-left: 5px; font-size: 18px;" class="bi bi-box-arrow-up-right"></i></a></td>
+                </tr>
+                <tr>
+                  <td><i class="fa fa-envelope" style="font-size:18px; margin-right: 5px; color: black;"></i> {{
+                    jobDetails['cemail'] }}</td>
+                </tr>
+              </table>
+              <!-- </table> -->
+            </div><!--//row-->
+          </div><!--//app-card-body-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include "footer.html" %}
+
+  <script type="text/javascript">
+    function downloadApplication() {
+      const pdf = document.getElementById('pdf')
+      html2pdf(pdf)
+    }
+  </script>

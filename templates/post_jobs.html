@@ -1,0 +1,180 @@
+{% include "header.html" %}
+<title>HireMe Admin | Post Jobs</title>
+<style>
+  #ni4 {
+    background-color: #edfdf6;
+    font-weight: bold;
+  }
+
+  #nl4 {
+    border-left: 5px Solid #27695F;
+  }
+
+  #districtSelect {
+    display: none;
+  }
+</style>
+
+<div class="app-wrapper">
+
+  <div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+      <h1 class="app-page-title">Post Jobs</h1>
+      <hr class="mb-4">
+      {% if msg == 'inserted' %}
+      <div class="alert alert-success col-md-4 alert-dismissible fade show" role="alert">Job Posted Successfully
+        <form action="/popout" method="POST">
+          <input type="hidden" name="pop" value="inserted">
+          <button type="submit" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </form>
+      </div>
+      {% elif msg == 'inserterror' %}
+      <div class="alert alert-danger col-md-4 alert-dismissible fade show" role="alert">Oops !!! Error Encountered
+        <form action="/popout" method="POST">
+          <input type="hidden" name="pop" value="inserterror">
+          <button type="submit" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </form>
+      </div>
+      {% endif %}
+      <div class="row g-4 settings-section">
+        <div class="col-16 col-md-10">
+          <div class="app-card app-card-settings shadow-sm p-4">
+            <div class="app-card-body">
+              <form action="/post_jobs" method="POST" class="settings-form">
+                <div class="mb-3">
+                  <label for="setting-input-2" class="form-label">Job Title</label>
+                  <input type="text" name="jtitle" class="form-control" id="setting-input-2" required>
+                </div>
+                <div class="mb-3">
+                  <label for="setting-input-2" class="form-label">Job Type</label>
+                  <select name="jtype" required>
+                    <option value="Full-Time">Full-Time</option>
+                    <option value="Internship">Internship</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="setting-input-2" class="form-label">Job Description</label>
+                  <textarea name="jd" rows="10" class="form-control" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="setting-input-2" class="form-label">Job Location<span class="ms-2"
+                      data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                      data-bs-placement="top" data-bs-content="Select State and District"><i
+                        class="bi bi-exclamation-circle"></i></span></label>
+                  <select name="state" id="stateSelect" required>
+                    <option selected disabled>Select State</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Manipur">Manipur</option>
+                    <option value="Meghalaya">Meghalaya</option>
+                    <option value="Mizoram">Mizoram</option>
+                    <option value="Nagaland">Nagaland</option>
+                    <option value="Odisha">Odisha</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Tripura">Tripura</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="Uttarakhand">Uttarakhand</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <!-- Add more state options here -->
+                  </select>
+
+                  <select name="district" id="districtSelect" required>
+                    <!-- District options will be populated dynamically using JavaScript -->
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="setting-input-1" class="form-label">Job Category<span class="ms-2"
+                      data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                      data-bs-placement="top"
+                      data-bs-content="Categorize the job within a specific industry or field (e.g., healthcare, technology, finance)"><i
+                        class="bi bi-exclamation-circle"></i></span></label>
+                  <input type="text" name="jctg" class="form-control" id="setting-input-1" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="setting-input-2" class="form-label">Job Shift</label>
+                  <input type="text" name="jshift" class="form-control" id="setting-input-1" value="Select Date">
+                </div>
+
+                <div class="mb-3">
+                  <label for="setting-input-2" class="form-label">Roles and Responsibilites<span class="ms-2"
+                      data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                      data-bs-placement="top"
+                      data-bs-content="Detail the day-to-day tasks and responsibilities of the role. Add semicolon (/) at the end to create new line before hitting enter"><i
+                        class="bi bi-exclamation-circle"></i></span></label>
+                  <textarea name="jrole" rows="10" class="form-control" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="setting-input-2" class="form-label">Required Qualifications<span class="ms-2"
+                      data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                      data-bs-placement="top"
+                      data-bs-content="List the required qualifications, including education. Add semicolon (/) at the end to create new line before hitting enter"><i
+                        class="bi bi-exclamation-circle"></i></span></label>
+                  <textarea name="jqualif" rows="10" class="form-control" required></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="setting-input-2" class="form-label">Required Skills<span class="ms-2"
+                      data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                      data-bs-placement="top"
+                      data-bs-content="Mention specific skills and competencies that are required or preferred for the job. Add semicolon (/) at the end to create new line before hitting enter"><i
+                        class="bi bi-exclamation-circle"></i></span></label>
+                  <textarea name="jskills" rows="10" class="form-control" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                  <label for="setting-input-2" class="form-label">Salary and Benefits<span class="ms-2"
+                      data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                      data-bs-placement="top"
+                      data-bs-content="Include information on the compensation package, such as salary, bonuses, benefits, and any perks. Add semicolon (/) at the end to create new line before hitting enter"><i
+                        class="bi bi-exclamation-circle"></i></span></label>
+                  <textarea name="jsal" rows="10" class="form-control" required></textarea>
+                </div>
+
+                <div class="col-6 mb-3">
+                  <label for="setting-input-2" class="form-label">Application Deadline</label>
+                  <input type="date" name="jdead" class="form-control" id="setting-input-1" value="Select Date">
+                </div>
+
+                <div class="mb-3">
+                  <label for="setting-input-2" class="form-label">Company Name</label>
+                  <input type="text" name="cname" class="form-control" id="setting-input-2" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="setting-input-2" class="form-label">Company Email</label>
+                  <input type="email" name="cemail" class="form-control" id="setting-input-2" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="setting-input-2" class="form-label">Company Website</label>
+                  <input type="text" name="cweb" class="form-control" id="setting-input-2" required>
+                </div>
+
+                <button type="submit" class="btn app-btn-primary">Submit</button>
+              </form>
+            </div><!--//app-card-body-->
+
+          </div><!--//app-card-->
+        </div>
+      </div><!--//row-->
+      <hr class="my-4">
+    </div><!--//container-fluid-->
+  </div><!--//app-content-->
+
+  {% include "footer.html" %}
